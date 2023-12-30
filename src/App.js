@@ -21,7 +21,7 @@ function App() {
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.log(error));
-  });
+  }, [url]);
 
   useEffect(() => {
     if (data.length !== 0) {
@@ -41,7 +41,6 @@ function App() {
     e.preventDefault();
     const searchTerm = e.target.value.toLowerCase();
 
-    // Vérifiez si les données originales ont été stockées, sinon, stockez-les
     if (originalDataRef.current.length === 0) {
       originalDataRef.current = data.slice();
     }
@@ -50,7 +49,6 @@ function App() {
       return pays.name.common.toLowerCase().includes(searchTerm);
     });
 
-    // Mise à jour de l'état avec le résultat filtré
     setData(filteredCountries);
   }
 
@@ -62,7 +60,6 @@ function App() {
     );
     setShowContent(false);
     setDetail(objetTrouve);
-    // console.log(objetTrouve);
   }
 
   return (
@@ -81,6 +78,10 @@ function App() {
                   {data.map((pays, index) => (
                     <Loader key={index} />
                   ))}
+                </div>
+              ) : data.length === 0 ? (
+                <div>
+                  <h3 className="text-danger text-center">Aucun résultat</h3>
                 </div>
               ) : (
                 <div className="row">
