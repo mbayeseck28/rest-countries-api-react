@@ -3,7 +3,6 @@ import Header from './composants/Header';
 import Recherche from './composants/Recherche';
 import Carte from './composants/Carte';
 import Loader from './composants/Loader';
-import Details from './composants/Details';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { useState, useEffect, useRef } from 'react';
@@ -13,28 +12,35 @@ function App() {
   const [data, setData] = useState([]);
   const [url, setUrl] = useState('https://restcountries.com/v3.1/all');
   const [showContent, setShowContent] = useState(true);
-  const [detail, setDetail] = useState('');
   const originalDataRef = useRef([]);
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.log(error));
-  });
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const jsonData = await response.json();
+        setData(jsonData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [url]);
 
   useEffect(() => {
-    if (data.length !== 0) {
-      setIsLoading(false);
+    // Stockez les données originales lors de la première mise à jour des données
+    if (originalDataRef.current.length === 0 && data.length > 0) {
+      originalDataRef.current = data.slice();
     }
   }, [data]);
 
   function chercheRegion(e) {
     e.preventDefault();
     const countrySearch = e.target.value.toLowerCase();
-    countrySearch === 'all'
-      ? setUrl('https://restcountries.com/v3.1/all')
-      : setUrl(`https://restcountries.com/v3.1/region/${countrySearch}`);
+    setUrl(`https://restcountries.com/v3.1/region/${countrySearch}`);
+    console.log(url);
   }
 
   function cherchePays(e) {
@@ -61,8 +67,7 @@ function App() {
       (objet) => objet[cleRecherche] === valeurRecherche
     );
     setShowContent(false);
-    setDetail(objetTrouve);
-    // console.log(objetTrouve);
+    console.log(objetTrouve);
   }
 
   return (
@@ -79,14 +84,14 @@ function App() {
               {isLoading ? (
                 <div className="row">
                   {data.map((pays, index) => (
-                    <Loader key={index} />
+                    <Loader />
                   ))}
                 </div>
               ) : (
                 <div className="row">
-                  {data.map((pays, index) => (
+                  {data.map((pays) => (
                     <Carte
-                      key={pays.index}
+                      key={pays.population}
                       flags={pays.flags.png}
                       common={pays.name.common}
                       population={pays.population}
@@ -102,17 +107,7 @@ function App() {
         ) : (
           <>
             {/* Remplacez ces composants par les composants que vous souhaitez afficher à la place */}
-            <Details
-              flags={detail.flags.png}
-              common={detail.name.common}
-              population={detail.population}
-              region={detail.region}
-              subregion={detail.subregion}
-              capital={detail.capital}
-              tld={detail.tld}
-              // borders={detail.borders}
-              retour={() => setShowContent(true)}
-            />
+            <Header />
           </>
         )}
         {/* <button onClick={() => setShowContent(!showContent)}>
