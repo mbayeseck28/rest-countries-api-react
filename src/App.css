@@ -39,3 +39,11 @@
 .loadImg{
   height: 150px;
 }
+.detail{
+  height: 100vh;
+}
+/* _________________ */
+.App, .btn, .card-body, .card-body span{
+  background-color: var(--body_background);
+  color: var(--body_color);
+}

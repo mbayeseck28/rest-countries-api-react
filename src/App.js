@@ -5,7 +5,7 @@ import Carte from './composants/Carte';
 import Loader from './composants/Loader';
 import Details from './composants/Details';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import { useState, useEffect, useRef } from 'react';
 
 function App() {

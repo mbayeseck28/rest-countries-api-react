@@ -1,9 +1,10 @@
 import React from 'react'
+import '../App.css'
 
 const Details = ({flags, common, population, region, subregion, capital, tld, retour }) => {
   return (
-    <div className='mt-5'>
-        <button type="button" onClick={retour} class="btn btn-light my-4 shadow changeText changeBg px-4 border-0">
+    <div className='mt-5 detail'>
+        <button type="button" onClick={retour} class="btn btn-light my-4 shadow px-4 border-0">
             Back
         </button>
     <div className="container">

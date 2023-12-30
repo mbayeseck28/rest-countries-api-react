@@ -1,11 +1,12 @@
 import React from 'react'
 import './Carte.css';
+import '../App.css';
 
 const Carte = ({detailsPays, flags, common, population, continents, capital}) => {
   return (
     <div className='col-sm-6 col-md-4 col-lg-3 mb-3'>
         <div className='card shadow border-0'>
-            <button type="button" className="btn m-0 p-0 text-start" onClick={() => detailsPays(population)} >
+            <button type="button" className="btn m-0 p-0 text-start border-0" onClick={() => detailsPays(population)} >
                 <div className="drapeau">
                     <img src={flags} alt="" />
                 </div>
